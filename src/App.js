@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import CalendarView from "./CalendarView";
-import "./index.css";
 
 const dummyEvents = [
   {
@@ -15,8 +13,21 @@ const dummyEvents = [
   },
 ];
 
+const CalendarView = ({ events }) => (
+  <div className="p-4">
+    <h3 className="text-lg font-semibold mb-2">Calendar</h3>
+    <ul className="list-disc pl-6">
+      {events.map((event, i) => (
+        <li key={i}>
+          <strong>{event.title}</strong> - {event.start.toLocaleString()} to {event.end.toLocaleString()}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
 const App = () => {
-  const [activeView, setActiveView] = useState("dashboard");
+  const [activeView, setActiveView] = useState("list");
   const [selectedCase, setSelectedCase] = useState(null);
   const [activeTab, setActiveTab] = useState("notes");
   const [searchQuery, setSearchQuery] = useState("");
@@ -266,6 +277,7 @@ const App = () => {
           <span className="text-purple-600">LexiQ</span> Manager
         </h1>
         <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("dashboard"); setSelectedCase(null); }}>Dashboard</button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("list"); setSelectedCase(null); }}>Case List</button>
         <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("new"); setSelectedCase(null); }}>Add New Case</button>
         <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("calendar"); setSelectedCase(null); }}>Calendar</button>
         <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("files"); setSelectedCase(null); }}>Files</button>
