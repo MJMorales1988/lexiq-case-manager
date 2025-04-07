@@ -1,11 +1,14 @@
 import { useState } from "react";
 import AddCaseModal from "./AddCaseModal";
+import CalendarView from "./CalendarView";
 
 export default function CaseManager() {
   const [selectedCase, setSelectedCase] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
   const [caseList, setCaseList] = useState([
     {
       id: 1,
@@ -13,6 +16,8 @@ export default function CaseManager() {
       client: "Juan Dela Cruz",
       status: "Pending",
       lastUpdated: "Apr 5, 2025",
+      court: "Regional Trial Court",
+      branch: "Branch 1"
     },
     {
       id: 2,
@@ -20,6 +25,8 @@ export default function CaseManager() {
       client: "Ma. Mercedes",
       status: "Pending",
       lastUpdated: "Apr 7, 2025",
+      court: "Metropolitan Trial Court",
+      branch: "Branch 3"
     }
   ]);
 
@@ -55,16 +62,18 @@ export default function CaseManager() {
         <h1 className="text-2xl font-bold mb-4 text-[#9400D3]">
           LexiQ <span className="text-[#14919F]">Manager</span>
         </h1>
-        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Dashboard</button>
+        <button onClick={() => { setSelectedCase(null); setShowCalendar(false); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Dashboard</button>
         <button onClick={() => { setShowModal(true); setIsEditing(false); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Add New Case</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Calendar</button>
+        <button onClick={() => { setShowCalendar(true); setSelectedCase(null); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Calendar</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Files</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Users</button>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        {!selectedCase ? (
+        {showCalendar ? (
+          <CalendarView caseList={caseList} />
+        ) : !selectedCase ? (
           <>
             <div className="mb-4">
               <input
