@@ -1,14 +1,21 @@
+
 import React from "react";
-import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+import { Calendar, Views } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { dateFnsLocalizer } from "react-big-calendar/lib/localizers/date-fns";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
-const localizer = momentLocalizer({
+const locales = {
+  "en-US": enUS,
+};
+
+const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek: () => startOfWeek(new Date(), { locale: enUS }),
+  startOfWeek,
   getDay,
-  locales: { "en-US": enUS },
+  locales,
 });
 
 const sampleCases = [
@@ -28,12 +35,12 @@ const sampleCases = [
   },
 ];
 
-const CaseCalendar = ({ selectedCase, setSelectedCase }) => {
+const CaseCalendar = () => {
   const getCalendarEvents = () =>
     sampleCases.map((c) => ({
       title: c.title,
-      start: new Date(c.start),
-      end: new Date(c.end),
+      start: c.start,
+      end: c.end,
       resource: c.status,
     }));
 
