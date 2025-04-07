@@ -1,25 +1,34 @@
-import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "./react-big-calendar.css";
 
-const localizer = momentLocalizer(moment);
+// src/CalendarView.js
+import React, { useState } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { format, parse, startOfWeek, getDay } from "date-fns";
+
+const locales = {
+  "en-US": require("date-fns/locale/en-US"),
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const CalendarView = ({ events }) => {
-  const calendarEvents = events.map((event) => ({
-    title: `${event.title} - ${event.status}`,
-    start: new Date(event.intakeDate),
-    end: new Date(event.intakeDate),
-  }));
+  const [myEvents] = useState(events || []);
 
   return (
-    <div style={{ height: "80vh" }}>
+    <div className="p-4 bg-white rounded-xl shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Calendar of Cases</h2>
       <Calendar
         localizer={localizer}
-        events={calendarEvents}
+        events={myEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ margin: "20px" }}
+        style={{ height: 500 }}
       />
     </div>
   );

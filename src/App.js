@@ -1,24 +1,53 @@
-import React, { useState } from 'react';
-import './index.css';
 
-function App() {
+// src/App.js
+import React, { useState } from "react";
+import CalendarView from "./CalendarView";
+import "./index.css";
+
+const dummyEvents = [
+  {
+    title: "People v. Juan Dela Cruz (RTC Branch 1)",
+    start: new Date(2025, 3, 10, 9, 0),
+    end: new Date(2025, 3, 10, 10, 0),
+  },
+  {
+    title: "Ma. Mercedes v. Oriz Metro (MTC Branch 3)",
+    start: new Date(2025, 3, 12, 14, 0),
+    end: new Date(2025, 3, 12, 15, 30),
+  },
+];
+
+const App = () => {
+  const [activeView, setActiveView] = useState("dashboard");
+
+  const renderView = () => {
+    if (activeView === "calendar") {
+      return <CalendarView events={dummyEvents} />;
+    }
+
+    return (
+      <div className="p-4">
+        <h2 className="text-2xl font-bold mb-4">Welcome to LexiQ Manager</h2>
+        <p>Select an option from the sidebar to begin.</p>
+      </div>
+    );
+  };
+
   return (
-    <div className="flex">
-      <aside className="w-64 bg-teal-700 text-white min-h-screen p-4 shadow-lg rounded-r-xl">
-        <h1 className="text-2xl font-bold mb-6 text-purple-600">LexiQ Manager</h1>
-        <ul className="space-y-4">
-          <li><button className="w-full py-2 px-4 bg-teal-600 rounded-full shadow hover:bg-teal-800 transition">Dashboard</button></li>
-          <li><button className="w-full py-2 px-4 bg-teal-600 rounded-full shadow hover:bg-teal-800 transition">Add New Case</button></li>
-          <li><button className="w-full py-2 px-4 bg-teal-600 rounded-full shadow hover:bg-teal-800 transition">Calendar</button></li>
-          <li><button className="w-full py-2 px-4 bg-teal-600 rounded-full shadow hover:bg-teal-800 transition">Files</button></li>
-          <li><button className="w-full py-2 px-4 bg-teal-600 rounded-full shadow hover:bg-teal-800 transition">Users</button></li>
-        </ul>
-      </aside>
-      <main className="p-8 flex-1">
-        {/* Main content here */}
-      </main>
+    <div className="flex h-screen">
+      <div className="w-64 bg-teal-700 text-white p-4 flex flex-col space-y-4">
+        <h1 className="text-2xl font-bold mb-4">
+          <span className="text-purple-600">LexiQ</span> Manager
+        </h1>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("dashboard")}>Dashboard</button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("new")}>Add New Case</button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("calendar")}>Calendar</button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("files")}>Files</button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("users")}>Users</button>
+      </div>
+      <div className="flex-1 bg-gray-100 overflow-auto">{renderView()}</div>
     </div>
   );
-}
+};
 
 export default App;
