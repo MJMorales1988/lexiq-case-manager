@@ -52,14 +52,14 @@ export default function CaseManager() {
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <aside className="w-60 bg-white p-4 shadow flex flex-col gap-4">
-        <h1 className="text-2xl font-bold mb-4">
-          <span className="text-[#9400D3]">LexiQ</span>
+        <h1 className="text-2xl font-bold mb-4 text-[#9400D3]">
+          LexiQ <span className="text-[#14919F]">Manager</span>
         </h1>
-        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Dashboard</button>
-        <button onClick={() => { setShowModal(true); setIsEditing(false); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Add New Case</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Calendar</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Files</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Users</button>
+        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Dashboard</button>
+        <button onClick={() => { setShowModal(true); setIsEditing(false); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Add New Case</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Calendar</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Files</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl shadow-md">Users</button>
       </aside>
 
       {/* Main Content */}
@@ -101,23 +101,23 @@ export default function CaseManager() {
                     setShowModal(true);
                     setIsEditing(true);
                   }}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-2xl"
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-2xl shadow"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => deleteCase(selectedCase.id)}
-                  className="bg-red-600 text-white px-4 py-2 rounded-2xl"
+                  className="bg-red-600 text-white px-4 py-2 rounded-2xl shadow"
                 >
                   Delete
                 </button>
               </div>
             </div>
             <div className="flex gap-4 mb-6">
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Notes</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Documents</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Pleadings Filed</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Calendar</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Notes</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Documents</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Pleadings Filed</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Calendar</button>
             </div>
             <p className="text-gray-500">(Detailed case view placeholder.)</p>
           </div>
