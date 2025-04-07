@@ -1,3 +1,26 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Set off-white background color */
+body {
+  background-color: #f8f8f8; /* Off white color */
+}
+
+/* Custom styles for the search bar */
+.search-bar {
+  width: 100%; /* Make it longer */
+  max-width: 600px; /* Control the maximum width */
+  padding: 12px 20px; /* Add padding to make it look more spacious */
+  border: 2px solid #9400D3; /* Purple outline */
+  border-radius: 25px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Floating effect with shadow */
+  transition: all 0.3s ease-in-out; /* Smooth transition for focus state */
+}
+
+.search-bar:focus {
+  outline: none; /* Remove the default focus outline */
+  box-shadow: 0px 4px 8px rgba(148, 0, 211, 0.3); /* Larger shadow on focus */
+  border-color: #9400D3; /* Keep the purple outline */
+}
