@@ -12,10 +12,13 @@ export default function CaseManager() {
       client: "Juan Dela Cruz",
       status: "Pending",
       lastUpdated: "Apr 5, 2025",
-      court: "Regional Trial Court - Branch 1",
-      docketNumber: "RTC-2025-00123",
-      hearings: [],
-      notes: []
+    },
+    {
+      id: 2,
+      title: "Ma. Mercedes v. Oriz Metro",
+      client: "Ma. Mercedes",
+      status: "Pending",
+      lastUpdated: "Apr 7, 2025",
     }
   ]);
 
@@ -24,27 +27,28 @@ export default function CaseManager() {
   };
 
   const filteredCases = caseList.filter(c =>
-    [c.title, c.client, c.status, c.court, c.docketNumber]
+    [c.title, c.client, c.status]
       .join(" ")
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <header className="mb-6 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">
-          <span className="text-[#9400D3]">LexiQ</span> <span className="text-[#14919F]">Case Manager</span>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-60 bg-white p-4 shadow flex flex-col gap-4">
+        <h1 className="text-2xl font-bold mb-4">
+          <span className="text-[#9400D3]">LexiQ</span>
         </h1>
-        <button
-          className="bg-[#14919F] text-white px-4 py-2 rounded shadow"
-          onClick={() => setShowModal(true)}
-        >
-          Add New Case
-        </button>
-      </header>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Dashboard</button>
+        <button onClick={() => setShowModal(true)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Add New Case</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Calendar</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Files</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Users</button>
+      </aside>
 
-      <main className="max-w-6xl mx-auto">
+      {/* Main Content */}
+      <main className="flex-1 p-6">
         {!selectedCase ? (
           <>
             <div className="mb-4">
@@ -57,7 +61,7 @@ export default function CaseManager() {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 flex-1">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {filteredCases.map((c) => (
                 <div
                   key={c.id}
@@ -77,7 +81,7 @@ export default function CaseManager() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-[#14919F]">{selectedCase.title}</h2>
               <button onClick={() => setSelectedCase(null)} className="bg-[#14919F] text-white px-4 py-2 rounded">
-                Back to Dashboard
+                Return to Dashboard
               </button>
             </div>
             <div className="flex gap-4 mb-6">
