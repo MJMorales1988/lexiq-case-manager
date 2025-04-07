@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddCaseModal from "./AddCaseModal";
 import CalendarView from "./CalendarView";
+import CaseCalendarSidebar from "./CaseCalendarSidebar";
 
 export default function CaseManager() {
   const [selectedCase, setSelectedCase] = useState(null);
@@ -17,7 +18,23 @@ export default function CaseManager() {
       status: "Pending",
       lastUpdated: "Apr 5, 2025",
       court: "Regional Trial Court",
-      branch: "Branch 1"
+      branch: "Branch 1",
+      hearings: [
+        {
+          id: '1',
+          title: "Arraignment Hearing",
+          date: "2025-04-10T10:00:00",
+          location: "RTC Br. 1, CDO",
+          notes: "Motion to quash pending"
+        },
+        {
+          id: '2',
+          title: "Pre-trial Conference",
+          date: "2025-04-25T14:00:00",
+          location: "RTC Br. 1, CDO",
+          notes: "Preparation of witness list"
+        }
+      ]
     },
     {
       id: 2,
@@ -26,7 +43,8 @@ export default function CaseManager() {
       status: "Pending",
       lastUpdated: "Apr 7, 2025",
       court: "Metropolitan Trial Court",
-      branch: "Branch 3"
+      branch: "Branch 3",
+      hearings: []
     }
   ]);
 
@@ -101,34 +119,36 @@ export default function CaseManager() {
             </div>
           </>
         ) : (
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-[#14919F]">{selectedCase.title}</h2>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setShowModal(true);
-                    setIsEditing(true);
-                  }}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-2xl shadow"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteCase(selectedCase.id)}
-                  className="bg-red-600 text-white px-4 py-2 rounded-2xl shadow"
-                >
-                  Delete
-                </button>
+          <div className="flex">
+            <div className="flex-1 pr-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-[#14919F]">{selectedCase.title}</h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setShowModal(true);
+                      setIsEditing(true);
+                    }}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-2xl shadow"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteCase(selectedCase.id)}
+                    className="bg-red-600 text-white px-4 py-2 rounded-2xl shadow"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
+              <div className="flex gap-4 mb-6">
+                <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Notes</button>
+                <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Documents</button>
+                <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Pleadings Filed</button>
+              </div>
+              <p className="text-gray-500">(Detailed case view placeholder.)</p>
             </div>
-            <div className="flex gap-4 mb-6">
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Notes</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Documents</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Pleadings Filed</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl shadow">Calendar</button>
-            </div>
-            <p className="text-gray-500">(Detailed case view placeholder.)</p>
+            <CaseCalendarSidebar hearings={selectedCase.hearings} />
           </div>
         )}
       </main>
