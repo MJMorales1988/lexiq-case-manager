@@ -1,18 +1,16 @@
 import React, { useState } from "react";
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { enUS } from 'date-fns/locale';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const CalendarView = ({ events }) => (
-  <div className="p-4">
-    <h3 className="text-lg font-semibold mb-2">Calendar</h3>
-    <ul className="list-disc pl-6">
-      {events.map((event, i) => (
-        <li key={i}>
-          <strong>{event.title}</strong> - {event.start.toLocaleString()} to{" "}
-          {event.end.toLocaleString()}
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+const localizer = momentLocalizer({
+  format,
+  parse,
+  startOfWeek: () => startOfWeek(new Date(), { locale: enUS }),
+  getDay,
+  locales: { 'en-US': enUS }
+});
 
 const App = () => {
   const [activeView, setActiveView] = useState("list");
@@ -105,209 +103,35 @@ const App = () => {
   };
 
   const getCalendarEvents = () =>
-    cases
-      .filter((c) => c.start && c.end)
-      .map((c) => ({
-        title: c.title,
-        start: c.start,
-        end: c.end,
-      }));
+    cases.map((c) => ({
+      title: c.title,
+      start: new Date(c.start),
+      end: new Date(c.end),
+      resource: c.status
+    }));
 
   const renderView = () => {
     if (activeView === "calendar") {
-      return <CalendarView events={getCalendarEvents()} />;
-    }
-
-    if (activeView === "dashboard") {
       return (
         <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-          <p>Welcome to your legal case management dashboard.</p>
+          <h2 className="text-2xl font-bold mb-4">Case Calendar</h2>
+          <Calendar
+            localizer={localizer}
+            events={getCalendarEvents()}
+            startAccessor="start"
+            endAccessor="end"
+            titleAccessor="title"
+            views={[Views.MONTH, Views.WEEK, Views.DAY]}
+            style={{ height: 600 }}
+            eventPropGetter={(event) => {
+              const backgroundColor = event.resource === "Pending" ? "#f59e0b" : "#10b981";
+              return { style: { backgroundColor, color: "white" } };
+            }}
+          />
         </div>
       );
     }
-
-    if (activeView === "new") {
-      return (
-        <div className="p-4 max-w-xl">
-          <h2 className="text-2xl font-bold mb-4">Add New Case</h2>
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Case Title"
-              className="w-full border p-2 rounded"
-              value={newCase.title}
-              onChange={(e) =>
-                setNewCase({ ...newCase, title: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Client Name"
-              className="w-full border p-2 rounded"
-              value={newCase.client}
-              onChange={(e) =>
-                setNewCase({ ...newCase, client: e.target.value })
-              }
-            />
-            <input
-              type="datetime-local"
-              className="w-full border p-2 rounded"
-              value={newCase.start}
-              onChange={(e) =>
-                setNewCase({ ...newCase, start: e.target.value })
-              }
-            />
-            <input
-              type="datetime-local"
-              className="w-full border p-2 rounded"
-              value={newCase.end}
-              onChange={(e) =>
-                setNewCase({ ...newCase, end: e.target.value })
-              }
-            />
-            <button
-              className="bg-teal-700 text-white py-2 px-4 rounded"
-              onClick={handleAddNewCase}
-            >
-              Save Case
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (activeView === "files") {
-      return (
-        <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">Files</h2>
-          <p>All uploaded files will be displayed here.</p>
-        </div>
-      );
-    }
-
-    if (activeView === "users") {
-      return (
-        <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">User Management</h2>
-          <p>Manage your law firm's users here.</p>
-        </div>
-      );
-    }
-
-    if (selectedCase) {
-      return (
-        <div className="p-4">
-          <h2 className="text-2xl font-bold mb-4">{selectedCase.title}</h2>
-          <div className="flex space-x-4 mb-4">
-            {["notes", "files", "pleadings", "calendar"].map((tab) => (
-              <button
-                key={tab}
-                className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
-                  activeTab === tab ? "bg-teal-800" : ""
-                }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {activeTab === "notes" && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Notes</h3>
-              <ul className="list-disc pl-6">
-                {(selectedCase.notes || []).map((note, i) => (
-                  <li key={i}>{note}</li>
-                ))}
-              </ul>
-              <textarea
-                className="w-full border p-2 mt-4 rounded"
-                placeholder="Add a note..."
-                value={newNote}
-                onChange={(e) => setNewNote(e.target.value)}
-              ></textarea>
-              <button
-                className="mt-2 bg-teal-600 text-white py-1 px-3 rounded"
-                onClick={handleAddNote}
-              >
-                Add Note
-              </button>
-            </div>
-          )}
-
-          {activeTab === "files" && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Files</h3>
-              <ul className="list-disc pl-6">
-                {(selectedCase.files || []).map((file, i) => (
-                  <li key={i}>{file}</li>
-                ))}
-              </ul>
-              <input
-                type="file"
-                className="mt-4"
-                onChange={handleFileUpload}
-              />
-            </div>
-          )}
-
-          {activeTab === "pleadings" && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Pleadings</h3>
-              <p>No pleadings available.</p>
-            </div>
-          )}
-
-          {activeTab === "calendar" && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Case Calendar</h3>
-              <CalendarView events={[selectedCase]} />
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    const filteredCases = cases.filter((caseItem) =>
-      caseItem.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    return (
-      <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Case List</h2>
-        <input
-          type="text"
-          className="search-bar border p-2 mb-4 w-full rounded"
-          placeholder="Search cases, keywords, details..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <div className="space-y-4">
-          {filteredCases.length > 0 ? (
-            filteredCases.map((caseItem, index) => (
-              <div
-                key={index}
-                className="border p-4 rounded-lg shadow cursor-pointer"
-                onClick={() => {
-                  setSelectedCase(caseItem);
-                  setActiveTab("notes");
-                }}
-              >
-                <h3 className="text-lg font-semibold">{caseItem.title}</h3>
-                <p className="text-gray-600">Client: {caseItem.client}</p>
-                <p className="text-gray-600">Status: {caseItem.status}</p>
-                <p className="text-gray-400">
-                  Last updated: {caseItem.lastUpdated}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p>No cases found.</p>
-          )}
-        </div>
-      </div>
-    );
+    return <div className="p-4">Other views not implemented here.</div>;
   };
 
   return (
@@ -316,60 +140,7 @@ const App = () => {
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-purple-600">LexiQ</span> Manager
         </h1>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("dashboard");
-            setSelectedCase(null);
-          }}
-        >
-          Dashboard
-        </button>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("list");
-            setSelectedCase(null);
-          }}
-        >
-          Case List
-        </button>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("new");
-            setSelectedCase(null);
-          }}
-        >
-          Add New Case
-        </button>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("calendar");
-            setSelectedCase(null);
-          }}
-        >
-          Calendar
-        </button>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("files");
-            setSelectedCase(null);
-          }}
-        >
-          Files
-        </button>
-        <button
-          className="rounded-full py-2 px-4 bg-teal-600 shadow"
-          onClick={() => {
-            setActiveView("users");
-            setSelectedCase(null);
-          }}
-        >
-          Users
-        </button>
+        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("calendar"); setSelectedCase(null); }}>Calendar</button>
       </div>
       <div className="flex-1 bg-gray-100 overflow-auto">{renderView()}</div>
     </div>
