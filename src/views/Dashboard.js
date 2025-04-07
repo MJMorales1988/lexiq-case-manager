@@ -23,7 +23,7 @@ const Dashboard = () => {
       <input
         type="text"
         placeholder="Search cases, keywords, details..."
-        className="w-full max-w-xl mb-6 p-3 border rounded shadow-sm"
+        className="w-full max-w-4xl mb-6 px-6 py-3 border-2 border-[#9400D3] outline-none rounded-full shadow-sm text-lg"
       />
       <div className="flex flex-wrap gap-6">
         {sampleCases.map((c, i) => (
