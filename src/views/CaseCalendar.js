@@ -1,9 +1,11 @@
-
 import React from "react";
-import { Calendar, Views } from "react-big-calendar";
+import {
+  Calendar,
+  Views,
+  dateFnsLocalizer,
+} from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { dateFnsLocalizer } from "react-big-calendar/lib/localizers/date-fns";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const locales = {
