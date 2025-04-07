@@ -1,15 +1,20 @@
+// File: BigCalendarView.js
 import React from "react";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-const localizer = momentLocalizer({
+const locales = {
+  "en-US": enUS,
+};
+
+const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek: () => startOfWeek(new Date(), { locale: enUS }),
+  startOfWeek,
   getDay,
-  locales: { "en-US": enUS },
+  locales,
 });
 
 const BigCalendarView = ({ events }) => {
