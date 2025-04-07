@@ -40,7 +40,7 @@ export default function CaseManager() {
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-[#9400D3]">LexiQ</span>
         </h1>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Dashboard</button>
+        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Dashboard</button>
         <button onClick={() => setShowModal(true)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Add New Case</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Calendar</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Files</button>
