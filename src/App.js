@@ -1,13 +1,11 @@
-
 import { useState } from "react";
+import AddCaseModal from "./AddCaseModal";
 
 export default function CaseManager() {
   const [selectedCase, setSelectedCase] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const currentUser = "Atty. Mark Joseph Morales";
-
-  const caseList = [
+  const [showModal, setShowModal] = useState(false);
+  const [caseList, setCaseList] = useState([
     {
       id: 1,
       title: "People v. Juan Dela Cruz",
@@ -19,7 +17,11 @@ export default function CaseManager() {
       hearings: [],
       notes: []
     }
-  ];
+  ]);
+
+  const addNewCase = (caseData) => {
+    setCaseList((prev) => [...prev, { id: prev.length + 1, ...caseData }]);
+  };
 
   const filteredCases = caseList.filter(c =>
     [c.title, c.client, c.status, c.court, c.docketNumber]
@@ -34,7 +36,12 @@ export default function CaseManager() {
         <h1 className="text-3xl font-bold">
           <span className="text-[#9400D3]">LexiQ</span> <span className="text-[#14919F]">Case Manager</span>
         </h1>
-        <button className="bg-[#14919F] text-white px-4 py-2 rounded shadow">Add New Case</button>
+        <button
+          className="bg-[#14919F] text-white px-4 py-2 rounded shadow"
+          onClick={() => setShowModal(true)}
+        >
+          Add New Case
+        </button>
       </header>
 
       <main className="max-w-6xl mx-auto">
@@ -83,6 +90,12 @@ export default function CaseManager() {
           </div>
         )}
       </main>
+
+      <AddCaseModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSave={addNewCase}
+      />
     </div>
   );
 }
