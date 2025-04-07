@@ -40,11 +40,11 @@ export default function CaseManager() {
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-[#9400D3]">LexiQ</span>
         </h1>
-        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Dashboard</button>
-        <button onClick={() => setShowModal(true)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Add New Case</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Calendar</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Files</button>
-        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded">Users</button>
+        <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Dashboard</button>
+        <button onClick={() => setShowModal(true)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Add New Case</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Calendar</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Files</button>
+        <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Users</button>
       </aside>
 
       {/* Main Content */}
@@ -57,7 +57,7 @@ export default function CaseManager() {
                 placeholder="Search cases, keywords, details..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-3 rounded shadow focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full p-4 rounded-full shadow focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
 
@@ -65,7 +65,7 @@ export default function CaseManager() {
               {filteredCases.map((c) => (
                 <div
                   key={c.id}
-                  className="bg-white shadow p-4 rounded cursor-pointer"
+                  className="bg-white shadow p-4 rounded-lg cursor-pointer"
                   onClick={() => setSelectedCase(c)}
                 >
                   <h2 className="text-xl font-semibold text-[#14919F]">{c.title}</h2>
@@ -78,17 +78,14 @@ export default function CaseManager() {
           </>
         ) : (
           <div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4">
               <h2 className="text-2xl font-bold text-[#14919F]">{selectedCase.title}</h2>
-              <button onClick={() => setSelectedCase(null)} className="bg-[#14919F] text-white px-4 py-2 rounded">
-                Return to Dashboard
-              </button>
             </div>
             <div className="flex gap-4 mb-6">
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded">Notes</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded">Documents</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded">Pleadings Filed</button>
-              <button className="bg-[#14919F] text-white px-4 py-2 rounded">Calendar</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Notes</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Documents</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Pleadings Filed</button>
+              <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Calendar</button>
             </div>
             <p className="text-gray-500">(Detailed case view placeholder.)</p>
           </div>
