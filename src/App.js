@@ -33,11 +33,80 @@ const dummyCases = [
 
 const App = () => {
   const [activeView, setActiveView] = useState("dashboard");
+  const [selectedCase, setSelectedCase] = useState(null);
+  const [activeTab, setActiveTab] = useState("notes");
   const [searchQuery, setSearchQuery] = useState("");
 
   const renderView = () => {
     if (activeView === "calendar") {
       return <CalendarView events={dummyEvents} />;
+    }
+
+    if (selectedCase) {
+      return (
+        <div className="p-4">
+          <h2 className="text-2xl font-bold mb-4">{selectedCase.title}</h2>
+          <div className="flex space-x-4 mb-4">
+            <button
+              className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
+                activeTab === "notes" ? "bg-teal-800" : ""
+              }`}
+              onClick={() => setActiveTab("notes")}
+            >
+              Notes
+            </button>
+            <button
+              className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
+                activeTab === "files" ? "bg-teal-800" : ""
+              }`}
+              onClick={() => setActiveTab("files")}
+            >
+              Files
+            </button>
+            <button
+              className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
+                activeTab === "pleadings" ? "bg-teal-800" : ""
+              }`}
+              onClick={() => setActiveTab("pleadings")}
+            >
+              Pleadings
+            </button>
+            <button
+              className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
+                activeTab === "calendar" ? "bg-teal-800" : ""
+              }`}
+              onClick={() => setActiveTab("calendar")}
+            >
+              Calendar
+            </button>
+          </div>
+
+          {activeTab === "notes" && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Notes</h3>
+              <p>No notes available.</p>
+            </div>
+          )}
+          {activeTab === "files" && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Files</h3>
+              <p>No files available.</p>
+            </div>
+          )}
+          {activeTab === "pleadings" && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Pleadings</h3>
+              <p>No pleadings available.</p>
+            </div>
+          )}
+          {activeTab === "calendar" && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Case Calendar</h3>
+              <CalendarView events={dummyEvents} />
+            </div>
+          )}
+        </div>
+      );
     }
 
     const filteredCases = dummyCases.filter((caseItem) =>
@@ -57,7 +126,14 @@ const App = () => {
         <div className="space-y-4">
           {filteredCases.length > 0 ? (
             filteredCases.map((caseItem, index) => (
-              <div key={index} className="border p-4 rounded-lg shadow">
+              <div
+                key={index}
+                className="border p-4 rounded-lg shadow cursor-pointer"
+                onClick={() => {
+                  setSelectedCase(caseItem);
+                  setActiveTab("notes"); // Default tab on case click
+                }}
+              >
                 <h3 className="text-lg font-semibold">{caseItem.title}</h3>
                 <p className="text-gray-600">Client: {caseItem.client}</p>
                 <p className="text-gray-600">Status: {caseItem.status}</p>
