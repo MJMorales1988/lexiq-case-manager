@@ -7,7 +7,7 @@ const localizer = momentLocalizer(moment);
 
 const CalendarView = ({ events }) => {
   const calendarEvents = events.map((event) => ({
-    title: `${event.title} - ${event.court} Branch ${event.branch} (${event.status})`,
+    title: `${event.title} - ${event.status}`,
     start: new Date(event.intakeDate),
     end: new Date(event.intakeDate),
   }));
