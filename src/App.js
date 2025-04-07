@@ -1,4 +1,3 @@
-
 // src/App.js
 import React, { useState } from "react";
 import CalendarView from "./CalendarView";
@@ -39,11 +38,36 @@ const App = () => {
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-purple-600">LexiQ</span> Manager
         </h1>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("dashboard")}>Dashboard</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("new")}>Add New Case</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("calendar")}>Calendar</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("files")}>Files</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => setActiveView("users")}>Users</button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => setActiveView("dashboard")}
+        >
+          Dashboard
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => setActiveView("new")}
+        >
+          Add New Case
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => setActiveView("calendar")}
+        >
+          Calendar
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => setActiveView("files")}
+        >
+          Files
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => setActiveView("users")}
+        >
+          Users
+        </button>
       </div>
       <div className="flex-1 bg-gray-100 overflow-auto">{renderView()}</div>
     </div>
