@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 
-const dummyEvents = [
-  {
-    title: "People v. Juan Dela Cruz (RTC Branch 1)",
-    start: new Date(2025, 3, 10, 9, 0),
-    end: new Date(2025, 3, 10, 10, 0),
-  },
-  {
-    title: "Ma. Mercedes v. Oriz Metro (MTC Branch 3)",
-    start: new Date(2025, 3, 12, 14, 0),
-    end: new Date(2025, 3, 12, 15, 30),
-  },
-];
-
 const CalendarView = ({ events }) => (
   <div className="p-4">
     <h3 className="text-lg font-semibold mb-2">Calendar</h3>
     <ul className="list-disc pl-6">
       {events.map((event, i) => (
         <li key={i}>
-          <strong>{event.title}</strong> - {event.start.toLocaleString()} to {event.end.toLocaleString()}
+          <strong>{event.title}</strong> - {event.start.toLocaleString()} to{" "}
+          {event.end.toLocaleString()}
         </li>
       ))}
     </ul>
@@ -31,12 +19,23 @@ const App = () => {
   const [selectedCase, setSelectedCase] = useState(null);
   const [activeTab, setActiveTab] = useState("notes");
   const [searchQuery, setSearchQuery] = useState("");
+  const [newNote, setNewNote] = useState("");
+  const [newFile, setNewFile] = useState(null);
+  const [newCase, setNewCase] = useState({
+    title: "",
+    client: "",
+    start: "",
+    end: "",
+  });
+
   const [cases, setCases] = useState([
     {
       title: "People v. Juan Dela Cruz (RTC Branch 1)",
       client: "Juan Dela Cruz",
       status: "Pending",
       lastUpdated: "Apr 5, 2025",
+      start: new Date(2025, 3, 10, 9, 0),
+      end: new Date(2025, 3, 10, 10, 0),
       notes: [],
       files: [],
       pleadings: [],
@@ -46,30 +45,24 @@ const App = () => {
       client: "Ma. Mercedes",
       status: "Pending",
       lastUpdated: "Apr 7, 2025",
+      start: new Date(2025, 3, 12, 14, 0),
+      end: new Date(2025, 3, 12, 15, 30),
       notes: [],
       files: [],
       pleadings: [],
     },
   ]);
-  const [newNote, setNewNote] = useState("");
-  const [newFile, setNewFile] = useState(null);
-  const [newCase, setNewCase] = useState({ title: "", client: "" });
 
   const handleAddNote = () => {
     if (!newNote.trim()) return;
     const updatedCases = cases.map((c) => {
       if (c.title === selectedCase.title) {
-        return {
-          ...c,
-          notes: [...(c.notes || []), newNote],
-        };
+        return { ...c, notes: [...c.notes, newNote] };
       }
       return c;
     });
     setCases(updatedCases);
-    setSelectedCase(
-      updatedCases.find((c) => c.title === selectedCase.title)
-    );
+    setSelectedCase(updatedCases.find((c) => c.title === selectedCase.title));
     setNewNote("");
   };
 
@@ -78,42 +71,51 @@ const App = () => {
     if (!file) return;
     const updatedCases = cases.map((c) => {
       if (c.title === selectedCase.title) {
-        return {
-          ...c,
-          files: [...(c.files || []), file.name],
-        };
+        return { ...c, files: [...c.files, file.name] };
       }
       return c;
     });
     setCases(updatedCases);
-    setSelectedCase(
-      updatedCases.find((c) => c.title === selectedCase.title)
-    );
+    setSelectedCase(updatedCases.find((c) => c.title === selectedCase.title));
     setNewFile(null);
   };
 
   const handleAddNewCase = () => {
-    if (!newCase.title.trim() || !newCase.client.trim()) return;
+    const { title, client, start, end } = newCase;
+    if (!title.trim() || !client.trim() || !start || !end) return;
+
     const newEntry = {
-      ...newCase,
+      title,
+      client,
       status: "Pending",
       lastUpdated: new Date().toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric",
       }),
+      start: new Date(start),
+      end: new Date(end),
       notes: [],
       files: [],
       pleadings: [],
     };
     setCases([...cases, newEntry]);
-    setNewCase({ title: "", client: "" });
+    setNewCase({ title: "", client: "", start: "", end: "" });
     setActiveView("dashboard");
   };
 
+  const getCalendarEvents = () =>
+    cases
+      .filter((c) => c.start && c.end)
+      .map((c) => ({
+        title: c.title,
+        start: c.start,
+        end: c.end,
+      }));
+
   const renderView = () => {
     if (activeView === "calendar") {
-      return <CalendarView events={dummyEvents} />;
+      return <CalendarView events={getCalendarEvents()} />;
     }
 
     if (activeView === "dashboard") {
@@ -135,14 +137,34 @@ const App = () => {
               placeholder="Case Title"
               className="w-full border p-2 rounded"
               value={newCase.title}
-              onChange={(e) => setNewCase({ ...newCase, title: e.target.value })}
+              onChange={(e) =>
+                setNewCase({ ...newCase, title: e.target.value })
+              }
             />
             <input
               type="text"
               placeholder="Client Name"
               className="w-full border p-2 rounded"
               value={newCase.client}
-              onChange={(e) => setNewCase({ ...newCase, client: e.target.value })}
+              onChange={(e) =>
+                setNewCase({ ...newCase, client: e.target.value })
+              }
+            />
+            <input
+              type="datetime-local"
+              className="w-full border p-2 rounded"
+              value={newCase.start}
+              onChange={(e) =>
+                setNewCase({ ...newCase, start: e.target.value })
+              }
+            />
+            <input
+              type="datetime-local"
+              className="w-full border p-2 rounded"
+              value={newCase.end}
+              onChange={(e) =>
+                setNewCase({ ...newCase, end: e.target.value })
+              }
             />
             <button
               className="bg-teal-700 text-white py-2 px-4 rounded"
@@ -178,10 +200,17 @@ const App = () => {
         <div className="p-4">
           <h2 className="text-2xl font-bold mb-4">{selectedCase.title}</h2>
           <div className="flex space-x-4 mb-4">
-            <button className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${activeTab === "notes" ? "bg-teal-800" : ""}`} onClick={() => setActiveTab("notes")}>Notes</button>
-            <button className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${activeTab === "files" ? "bg-teal-800" : ""}`} onClick={() => setActiveTab("files")}>Files</button>
-            <button className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${activeTab === "pleadings" ? "bg-teal-800" : ""}`} onClick={() => setActiveTab("pleadings")}>Pleadings</button>
-            <button className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${activeTab === "calendar" ? "bg-teal-800" : ""}`} onClick={() => setActiveTab("calendar")}>Calendar</button>
+            {["notes", "files", "pleadings", "calendar"].map((tab) => (
+              <button
+                key={tab}
+                className={`py-2 px-4 bg-teal-600 text-white rounded-lg ${
+                  activeTab === tab ? "bg-teal-800" : ""
+                }`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
           </div>
 
           {activeTab === "notes" && (
@@ -198,7 +227,12 @@ const App = () => {
                 value={newNote}
                 onChange={(e) => setNewNote(e.target.value)}
               ></textarea>
-              <button className="mt-2 bg-teal-600 text-white py-1 px-3 rounded" onClick={handleAddNote}>Add Note</button>
+              <button
+                className="mt-2 bg-teal-600 text-white py-1 px-3 rounded"
+                onClick={handleAddNote}
+              >
+                Add Note
+              </button>
             </div>
           )}
 
@@ -210,7 +244,11 @@ const App = () => {
                   <li key={i}>{file}</li>
                 ))}
               </ul>
-              <input type="file" className="mt-4" onChange={handleFileUpload} />
+              <input
+                type="file"
+                className="mt-4"
+                onChange={handleFileUpload}
+              />
             </div>
           )}
 
@@ -224,7 +262,7 @@ const App = () => {
           {activeTab === "calendar" && (
             <div>
               <h3 className="text-lg font-semibold mb-2">Case Calendar</h3>
-              <CalendarView events={dummyEvents} />
+              <CalendarView events={[selectedCase]} />
             </div>
           )}
         </div>
@@ -240,7 +278,7 @@ const App = () => {
         <h2 className="text-2xl font-bold mb-4">Case List</h2>
         <input
           type="text"
-          className="search-bar"
+          className="search-bar border p-2 mb-4 w-full rounded"
           placeholder="Search cases, keywords, details..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -259,7 +297,9 @@ const App = () => {
                 <h3 className="text-lg font-semibold">{caseItem.title}</h3>
                 <p className="text-gray-600">Client: {caseItem.client}</p>
                 <p className="text-gray-600">Status: {caseItem.status}</p>
-                <p className="text-gray-400">Last updated: {caseItem.lastUpdated}</p>
+                <p className="text-gray-400">
+                  Last updated: {caseItem.lastUpdated}
+                </p>
               </div>
             ))
           ) : (
@@ -276,12 +316,60 @@ const App = () => {
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-purple-600">LexiQ</span> Manager
         </h1>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("dashboard"); setSelectedCase(null); }}>Dashboard</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("list"); setSelectedCase(null); }}>Case List</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("new"); setSelectedCase(null); }}>Add New Case</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("calendar"); setSelectedCase(null); }}>Calendar</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("files"); setSelectedCase(null); }}>Files</button>
-        <button className="rounded-full py-2 px-4 bg-teal-600 shadow" onClick={() => { setActiveView("users"); setSelectedCase(null); }}>Users</button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("dashboard");
+            setSelectedCase(null);
+          }}
+        >
+          Dashboard
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("list");
+            setSelectedCase(null);
+          }}
+        >
+          Case List
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("new");
+            setSelectedCase(null);
+          }}
+        >
+          Add New Case
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("calendar");
+            setSelectedCase(null);
+          }}
+        >
+          Calendar
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("files");
+            setSelectedCase(null);
+          }}
+        >
+          Files
+        </button>
+        <button
+          className="rounded-full py-2 px-4 bg-teal-600 shadow"
+          onClick={() => {
+            setActiveView("users");
+            setSelectedCase(null);
+          }}
+        >
+          Users
+        </button>
       </div>
       <div className="flex-1 bg-gray-100 overflow-auto">{renderView()}</div>
     </div>
