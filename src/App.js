@@ -16,30 +16,127 @@ const dummyEvents = [
   },
 ];
 
-const dummyCases = [
-  {
-    title: "People v. Juan Dela Cruz (RTC Branch 1)",
-    client: "Juan Dela Cruz",
-    status: "Pending",
-    lastUpdated: "Apr 5, 2025",
-  },
-  {
-    title: "Ma. Mercedes v. Oriz Metro (MTC Branch 3)",
-    client: "Ma. Mercedes",
-    status: "Pending",
-    lastUpdated: "Apr 7, 2025",
-  },
-];
-
 const App = () => {
   const [activeView, setActiveView] = useState("dashboard");
   const [selectedCase, setSelectedCase] = useState(null);
   const [activeTab, setActiveTab] = useState("notes");
   const [searchQuery, setSearchQuery] = useState("");
+  const [cases, setCases] = useState([
+    {
+      title: "People v. Juan Dela Cruz (RTC Branch 1)",
+      client: "Juan Dela Cruz",
+      status: "Pending",
+      lastUpdated: "Apr 5, 2025",
+    },
+    {
+      title: "Ma. Mercedes v. Oriz Metro (MTC Branch 3)",
+      client: "Ma. Mercedes",
+      status: "Pending",
+      lastUpdated: "Apr 7, 2025",
+    },
+  ]);
+
+  const [newCase, setNewCase] = useState({
+    title: "",
+    client: "",
+    status: "",
+    lastUpdated: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCase({
+      ...newCase,
+      [name]: value,
+    });
+  };
+
+  const handleAddCase = (e) => {
+    e.preventDefault();
+    const updatedCases = [
+      ...cases,
+      { ...newCase, lastUpdated: new Date().toLocaleDateString() },
+    ];
+    setCases(updatedCases);
+    setActiveView("dashboard");
+    setNewCase({ title: "", client: "", status: "", lastUpdated: "" });
+  };
 
   const renderView = () => {
     if (activeView === "calendar") {
       return <CalendarView events={dummyEvents} />;
+    }
+
+    if (activeView === "new") {
+      return (
+        <div className="p-4">
+          <h2 className="text-2xl font-bold mb-4">Add New Case</h2>
+          <form onSubmit={handleAddCase} className="space-y-4">
+            <div>
+              <label htmlFor="title" className="block mb-2">
+                Case Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={newCase.title}
+                onChange={handleInputChange}
+                className="p-2 border rounded w-full"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="client" className="block mb-2">
+                Client Name
+              </label>
+              <input
+                type="text"
+                id="client"
+                name="client"
+                value={newCase.client}
+                onChange={handleInputChange}
+                className="p-2 border rounded w-full"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="status" className="block mb-2">
+                Case Status
+              </label>
+              <input
+                type="text"
+                id="status"
+                name="status"
+                value={newCase.status}
+                onChange={handleInputChange}
+                className="p-2 border rounded w-full"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="lastUpdated" className="block mb-2">
+                Last Updated
+              </label>
+              <input
+                type="date"
+                id="lastUpdated"
+                name="lastUpdated"
+                value={newCase.lastUpdated}
+                onChange={handleInputChange}
+                className="p-2 border rounded w-full"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="rounded-full py-2 px-4 bg-teal-600 text-white shadow"
+            >
+              Add Case
+            </button>
+          </form>
+        </div>
+      );
     }
 
     if (selectedCase) {
@@ -109,7 +206,7 @@ const App = () => {
       );
     }
 
-    const filteredCases = dummyCases.filter((caseItem) =>
+    const filteredCases = cases.filter((caseItem) =>
       caseItem.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
