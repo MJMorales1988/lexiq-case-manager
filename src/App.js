@@ -5,6 +5,7 @@ export default function CaseManager() {
   const [selectedCase, setSelectedCase] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [caseList, setCaseList] = useState([
     {
       id: 1,
@@ -26,6 +27,20 @@ export default function CaseManager() {
     setCaseList((prev) => [...prev, { id: prev.length + 1, ...caseData }]);
   };
 
+  const updateCase = (updatedData) => {
+    setCaseList(prev =>
+      prev.map(c => (c.id === updatedData.id ? updatedData : c))
+    );
+    setSelectedCase(updatedData);
+  };
+
+  const deleteCase = (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this case?");
+    if (!confirmDelete) return;
+    setCaseList(prev => prev.filter(c => c.id !== id));
+    setSelectedCase(null);
+  };
+
   const filteredCases = caseList.filter(c =>
     [c.title, c.client, c.status]
       .join(" ")
@@ -41,7 +56,7 @@ export default function CaseManager() {
           <span className="text-[#9400D3]">LexiQ</span>
         </h1>
         <button onClick={() => setSelectedCase(null)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Dashboard</button>
-        <button onClick={() => setShowModal(true)} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Add New Case</button>
+        <button onClick={() => { setShowModal(true); setIsEditing(false); }} className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Add New Case</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Calendar</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Files</button>
         <button className="text-left px-4 py-2 bg-[#14919F] text-white rounded-2xl">Users</button>
@@ -78,8 +93,25 @@ export default function CaseManager() {
           </>
         ) : (
           <div>
-            <div className="mb-4">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-[#14919F]">{selectedCase.title}</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                    setIsEditing(true);
+                  }}
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-2xl"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteCase(selectedCase.id)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-2xl"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
             <div className="flex gap-4 mb-6">
               <button className="bg-[#14919F] text-white px-4 py-2 rounded-2xl">Notes</button>
@@ -95,7 +127,8 @@ export default function CaseManager() {
       <AddCaseModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        onSave={addNewCase}
+        onSave={isEditing ? updateCase : addNewCase}
+        initialData={isEditing ? selectedCase : null}
       />
     </div>
   );
