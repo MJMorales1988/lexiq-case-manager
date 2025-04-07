@@ -1,28 +1,23 @@
 
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
-import CaseCalendar from "./views/CaseCalendar";
+import Dashboard from "./views/Dashboard";
 
 function App() {
-  const [activeView, setActiveView] = useState("calendar");
-
-  const renderView = () => {
-    switch (activeView) {
-      case "calendar":
-        return <CaseCalendar />;
-      case "clients":
-        return <div className="p-4">[Clients View Placeholder]</div>;
-      case "cases":
-        return <div className="p-4">[Cases View Placeholder]</div>;
-      default:
-        return <div className="p-4">Select a view from the sidebar</div>;
-    }
-  };
+  const [activeView, setActiveView] = useState("dashboard");
 
   return (
-    <div className="flex h-screen">
+    <div className="flex bg-gray-100 min-h-screen">
       <Sidebar setActiveView={setActiveView} />
-      <main className="flex-1 bg-gray-100 overflow-auto">{renderView()}</main>
+      <main className="flex-1">
+        {activeView === "dashboard" && <Dashboard />}
+        {activeView !== "dashboard" && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold capitalize">{activeView} View</h2>
+            <p>This view is under construction.</p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

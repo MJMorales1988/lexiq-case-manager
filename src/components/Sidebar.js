@@ -2,35 +2,26 @@
 import React from "react";
 
 const Sidebar = ({ setActiveView }) => {
+  const menu = [
+    { label: "Dashboard", view: "dashboard" },
+    { label: "Add New Case", view: "add" },
+    { label: "Calendar", view: "calendar" },
+    { label: "Files", view: "files" },
+    { label: "Users", view: "users" }
+  ];
+
   return (
-    <div className="w-64 bg-gray-900 text-white p-4">
-      <h1 className="text-xl font-bold mb-6">LexiQ Manager</h1>
-      <ul className="space-y-2">
-        <li>
-          <button
-            onClick={() => setActiveView("calendar")}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-700"
-          >
-            📅 Calendar
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveView("clients")}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-700"
-          >
-            👤 Clients
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveView("cases")}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-700"
-          >
-            📂 Cases
-          </button>
-        </li>
-      </ul>
+    <div className="w-60 min-h-screen bg-white shadow-md p-4 space-y-4">
+      <h1 className="text-2xl font-bold text-purple-800 mb-6">LexiQ Manager</h1>
+      {menu.map(({ label, view }) => (
+        <button
+          key={view}
+          onClick={() => setActiveView(view)}
+          className="w-full text-left px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 };
