@@ -16,18 +16,58 @@ const dummyEvents = [
   },
 ];
 
+const dummyCases = [
+  {
+    title: "People v. Juan Dela Cruz (RTC Branch 1)",
+    client: "Juan Dela Cruz",
+    status: "Pending",
+    lastUpdated: "Apr 5, 2025",
+  },
+  {
+    title: "Ma. Mercedes v. Oriz Metro (MTC Branch 3)",
+    client: "Ma. Mercedes",
+    status: "Pending",
+    lastUpdated: "Apr 7, 2025",
+  },
+];
+
 const App = () => {
   const [activeView, setActiveView] = useState("dashboard");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const renderView = () => {
     if (activeView === "calendar") {
       return <CalendarView events={dummyEvents} />;
     }
 
+    const filteredCases = dummyCases.filter((caseItem) =>
+      caseItem.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
       <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Welcome to LexiQ Manager</h2>
-        <p>Select an option from the sidebar to begin.</p>
+        <h2 className="text-2xl font-bold mb-4">Case List</h2>
+        <input
+          type="text"
+          placeholder="Search cases, keywords, details..."
+          className="mb-4 p-2 border rounded"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <div className="space-y-4">
+          {filteredCases.length > 0 ? (
+            filteredCases.map((caseItem, index) => (
+              <div key={index} className="border p-4 rounded-lg shadow">
+                <h3 className="text-lg font-semibold">{caseItem.title}</h3>
+                <p className="text-gray-600">Client: {caseItem.client}</p>
+                <p className="text-gray-600">Status: {caseItem.status}</p>
+                <p className="text-gray-400">Last updated: {caseItem.lastUpdated}</p>
+              </div>
+            ))
+          ) : (
+            <p>No cases found.</p>
+          )}
+        </div>
       </div>
     );
   };
