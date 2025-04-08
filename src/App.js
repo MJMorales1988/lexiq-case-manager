@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SearchIcon } from '@heroicons/react/solid'; // Importing the SearchIcon component
-import Button from './Button'; // Updated import to default import for Button component
+import { SearchIcon } from '@heroicons/react/solid'; // Add this import for the search icon
+import Button from './Button'; // Updated import to default import
+import Home from './Home'; // Import the Home component
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,7 +34,7 @@ function App() {
 
           {/* Define your routes */}
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} /> {/* Use Home component here */}
             {/* Add other routes here */}
           </Routes>
         </div>
