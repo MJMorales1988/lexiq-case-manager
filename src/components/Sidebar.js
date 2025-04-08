@@ -1,48 +1,29 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-const Sidebar = () => {
+import React from "react";
+
+const Sidebar = ({ setActiveView }) => {
+  const menu = [
+    { label: "Dashboard", view: "dashboard" },
+    { label: "Add New Case", view: "add" },
+    { label: "Calendar", view: "calendar" },
+    { label: "Files", view: "files" },
+    { label: "Users", view: "users" }
+  ];
+
   return (
-    <div className="w-64 bg-gray-800 text-white h-full p-4">
-      <h2 className="text-xl font-bold mb-4">LexiQ Case Manager</h2>
-      <ul className="space-y-4">
-        <li>
-          <NavLink
-            to="/"
-            className="block py-2 px-4 hover:bg-gray-600 rounded"
-            activeClassName="bg-gray-600" // This will highlight the active link
-          >
-            Dashboard
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/cases"
-            className="block py-2 px-4 hover:bg-gray-600 rounded"
-            activeClassName="bg-gray-600"
-          >
-            Cases
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/calendar"
-            className="block py-2 px-4 hover:bg-gray-600 rounded"
-            activeClassName="bg-gray-600"
-          >
-            Calendar
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/settings"
-            className="block py-2 px-4 hover:bg-gray-600 rounded"
-            activeClassName="bg-gray-600"
-          >
-            Settings
-          </NavLink>
-        </li>
-      </ul>
+    <div className="w-64 min-h-screen bg-white shadow-md p-4 space-y-4">
+      <h1 className="text-3xl font-extrabold text-purple-800 mb-6 text-center drop-shadow">
+        LexiQ Manager
+      </h1>
+      {menu.map(({ label, view }) => (
+        <button
+          key={view}
+          onClick={() => setActiveView(view)}
+          className="w-full text-center px-4 py-3 bg-teal-600 text-white rounded-full shadow hover:bg-teal-700 transition"
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 };
