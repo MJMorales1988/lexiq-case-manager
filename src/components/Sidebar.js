@@ -1,30 +1,48 @@
-import React from "react";
+import React, { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { SearchIcon } from '@heroicons/react/solid'; 
+import Button from './Button'; 
 
-const Sidebar = ({ setActiveView }) => {
-  const menu = [
-    { label: "Dashboard", view: "dashboard" },
-    { label: "Add New Case", view: "add" },
-    { label: "Calendar", view: "calendar" },
-    { label: "Files", view: "files" },
-    { label: "Users", view: "users" }
-  ];
+import Home from './Home'; // Add the import for Home component
+
+function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeView, setActiveView] = useState('dashboard'); // Manage active view
+
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
   return (
-    <div className="w-64 min-h-screen bg-white shadow-md p-4 space-y-4">
-      <h1 className="text-3xl font-extrabold text-purple-800 mb-6 text-center drop-shadow-lg">
-        LexiQ Manager
-      </h1>
-      {menu.map(({ label, view }) => (
-        <button
-          key={view}
-          onClick={() => setActiveView(view)}
-          className="w-full text-center px-4 py-3 bg-teal-600 text-white rounded-full shadow hover:bg-teal-700 transition duration-300 ease-in-out"
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  );
-};
+    <Router>
+      <div className="flex">
+        <Sidebar setActiveView={setActiveView} /> {/* Pass setActiveView to Sidebar */}
+        <div className="flex-1 p-6">
+          {/* Always present Search bar and Add New Case button */}
+          <div className="flex items-center mb-4 space-x-2">
+            <div className="relative w-full max-w-sm">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search..."
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <SearchIcon className="w-5 h-5 text-gray-500" />
+              </div>
+            </div>
+            <Button className="btn">Add New Case</Button>
+          </div>
 
-export default Sidebar;
+          {/* Define your routes */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* Add other routes here */}
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
