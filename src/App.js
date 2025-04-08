@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SearchIcon } from '@heroicons/react/solid'; // Add this import for the search icon
-import Button from './Button'; // Updated import to default import
+import { SearchIcon } from '@heroicons/react/solid'; // Importing the SearchIcon component
+import Button from './Button'; // Updated import to default import for Button component
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
