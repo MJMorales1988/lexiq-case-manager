@@ -4,7 +4,8 @@ import Sidebar from './components/Sidebar';
 import { SearchIcon } from '@heroicons/react/solid'; 
 import Button from './Button'; 
 import Home from './Home';
-import CasesList from './views/CasesList'; // Correct path to CasesList component
+import CasesList from './views/CasesList';  // Correct path
+import CalendarView from './views/CalendarView';  // Ensure this import is correct
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +37,8 @@ function App() {
           {/* Define your routes */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cases" element={<CasesList />} /> {/* Add the route for Cases */}
+            <Route path="/cases" element={<CasesList />} />
+            <Route path="/calendar" element={<CalendarView />} /> {/* Ensure the route is correct */}
             {/* Add other routes here */}
           </Routes>
         </div>
