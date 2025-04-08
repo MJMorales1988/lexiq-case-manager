@@ -4,40 +4,89 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-100 text-gray-900;
+  @apply bg-white text-gray-900; /* Background set to white */
 }
 
 @layer base {
   body {
-    @apply bg-gray-900 text-white; /* Dark background with white text */
+    @apply bg-white text-gray-900; /* Background set to white, text in default color */
   }
 }
 
 @layer components {
   body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Georgia', sans-serif; /* Default body font */
+  }
+
+  h1, h2 {
+    font-family: 'Greycliff', sans-serif; /* H1 and H2 set to Greycliff */
   }
 }
 
 @layer utilities {
+  /* Button styling */
   .btn {
-    @apply bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply bg-[#14919F] text-white py-2 px-4 rounded-md hover:bg-[#9400D3] focus:outline-none focus:ring-2 focus:ring-[#14919F];
   }
 
+  /* Button link styling */
   .btn-link {
-    @apply text-blue-500 hover:text-blue-700 focus:outline-none;
+    @apply text-[#14919F] hover:text-[#9400D3] focus:outline-none;
   }
 
-  /* Styling to make the search bar fit next to the button */
+  /* Search bar container to place items next to each other */
   .search-bar-container {
     @apply flex items-center space-x-2;
   }
 
+  /* Search bar input styling */
   .search-bar {
-    @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#14919F];
   }
 
+  /* Add New Case button styling */
   .add-case-btn {
-    @apply py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply py-2 px-4 bg-[#14919F] text-white rounded-md hover:bg-[#9400D3] focus:outline-none focus:ring-2 focus:ring-[#14919F];
+  }
+
+  /* Branding color utility classes */
+  .primary-bg {
+    @apply bg-white;
+  }
+
+  .primary-color {
+    @apply text-[#14919F];
+  }
+
+  .secondary-color {
+    @apply text-[#9400D3];
+  }
+
+  /* Header and footer branding color classes */
+  .header {
+    @apply bg-[#14919F] text-white;
+  }
+
+  footer {
+    @apply bg-[#9400D3] text-white;
+  }
+
+  /* Links with branding colors */
+  a {
+    @apply text-[#14919F];
+  }
+
+  a:hover {
+    @apply text-[#9400D3];
+  }
+
+  /* Text color */
+  p, span {
+    @apply text-gray-800;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    @apply bg-white border-[#14919F] text-gray-800;
   }
 }

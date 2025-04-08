@@ -1,1 +1,96 @@
+/* Import the default react-big-calendar CSS */
 @import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+/* Customizing the React Big Calendar */
+.rbc-calendar {
+  background-color: white !important; /* Ensure calendar background is white */
+}
+
+.rbc-header {
+  background-color: #14919F !important; /* Header background set to branding primary color */
+  color: white !important; /* Text color for header */
+  font-family: 'Greycliff', sans-serif !important; /* Set font to Greycliff */
+}
+
+.rbc-header:focus,
+.rbc-header:hover {
+  background-color: #9400D3 !important; /* Hover color for header */
+}
+
+.rbc-event {
+  background-color: #14919F !important; /* Default event color */
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 2px 4px !important;
+}
+
+.rbc-event:hover {
+  background-color: #9400D3 !important; /* Event hover color */
+}
+
+.rbc-day-bg {
+  background-color: white !important; /* Ensure day background is white */
+}
+
+.rbc-selected {
+  background-color: #9400D3 !important; /* Color for selected day */
+  color: white !important;
+}
+
+.rbc-today {
+  background-color: #f7f7f7 !important; /* Highlight today's date */
+  color: #14919F !important;
+}
+
+.rbc-time-slot {
+  background-color: white !important; /* Time slot background color */
+}
+
+.rbc-time-content {
+  color: #14919F !important; /* Time content color */
+}
+
+.rbc-month-view .rbc-day-bg {
+  border: 1px solid #ddd; /* Light border for days */
+}
+
+.rbc-month-view .rbc-day-bg:hover {
+  background-color: #f0f0f0 !important; /* Light hover effect for days */
+}
+
+.rbc-agenda-time-cell {
+  background-color: #f7f7f7 !important; /* Agenda time cell background */
+}
+
+.rbc-agenda-event-cell {
+  background-color: #14919F !important;
+  color: white !important;
+}
+
+/* Styling for the current time indicator */
+.rbc-now {
+  background-color: #9400D3 !important; /* Use secondary branding color */
+}
+
+/* Styling for event tooltip */
+.rbc-event-tooltip {
+  background-color: #9400D3 !important; /* Tooltip background */
+  color: white !important; /* Tooltip text color */
+}
+
+/* Adjusting scroll bar styles for calendar */
+.rbc-calendar {
+  scrollbar-color: #14919F #f0f0f0;
+}
+
+.rbc-calendar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rbc-calendar::-webkit-scrollbar-thumb {
+  background-color: #14919F;
+}
+
+.rbc-calendar::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}

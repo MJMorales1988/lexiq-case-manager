@@ -40,7 +40,7 @@ const Settings = () => {
           </ul>
         </div>
 
-        {/* LexiQ SETTINGS */}
+        {/* LEXIQ SETTINGS */}
         <div className="space-y-4">
           <h3 className="font-semibold">LexiQ SETTINGS</h3>
           <ul>
