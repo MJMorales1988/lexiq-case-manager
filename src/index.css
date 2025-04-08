@@ -1,92 +1,80 @@
-/* Ensure the search bar and button container layout is responsive */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-white text-gray-900; /* Background set to white */
-}
-
 @layer base {
   body {
-    @apply bg-white text-gray-900; /* Background set to white, text in default color */
+    @apply bg-white text-darkText font-body;
   }
 }
 
 @layer components {
-  body {
-    font-family: 'Georgia', sans-serif; /* Default body font */
-  }
-
-  h1, h2 {
-    font-family: 'Greycliff', sans-serif; /* H1 and H2 set to Greycliff */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
   }
 }
 
 @layer utilities {
-  /* Button styling */
+  /* Buttons */
   .btn {
-    @apply bg-[#14919F] text-white py-2 px-4 rounded-md hover:bg-[#9400D3] focus:outline-none focus:ring-2 focus:ring-[#14919F];
+    @apply bg-primary text-white py-2 px-4 rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition duration-150 ease-in-out;
   }
 
-  /* Button link styling */
   .btn-link {
-    @apply text-[#14919F] hover:text-[#9400D3] focus:outline-none;
+    @apply text-primary hover:text-accent focus:outline-none transition duration-150 ease-in-out;
   }
 
-  /* Search bar container to place items next to each other */
+  /* Search bar layout */
   .search-bar-container {
     @apply flex items-center space-x-2;
   }
 
-  /* Search bar input styling */
   .search-bar {
-    @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#14919F];
+    @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent;
   }
 
-  /* Add New Case button styling */
   .add-case-btn {
-    @apply py-2 px-4 bg-[#14919F] text-white rounded-md hover:bg-[#9400D3] focus:outline-none focus:ring-2 focus:ring-[#14919F];
+    @apply py-2 px-4 bg-primary text-white rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition duration-150 ease-in-out;
   }
 
-  /* Branding color utility classes */
+  /* Utility Classes */
   .primary-bg {
     @apply bg-white;
   }
 
   .primary-color {
-    @apply text-[#14919F];
+    @apply text-primary;
   }
 
   .secondary-color {
-    @apply text-[#9400D3];
+    @apply text-secondary;
   }
 
-  /* Header and footer branding color classes */
+  /* Header & Footer */
   .header {
-    @apply bg-[#14919F] text-white;
+    @apply bg-primary text-white;
   }
 
   footer {
-    @apply bg-[#9400D3] text-white;
+    @apply bg-secondary text-white;
   }
 
-  /* Links with branding colors */
+  /* Links */
   a {
-    @apply text-[#14919F];
+    @apply text-primary transition duration-150 ease-in-out;
   }
 
   a:hover {
-    @apply text-[#9400D3];
+    @apply text-accent;
   }
 
-  /* Text color */
+  /* Text */
   p, span {
-    @apply text-gray-800;
+    @apply text-darkText;
   }
 
   /* Form elements */
   input, textarea, select {
-    @apply bg-white border-[#14919F] text-gray-800;
+    @apply bg-white border-secondary text-darkText rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent;
   }
 }

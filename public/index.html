@@ -4,8 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LexiQ Case Manager</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="dist/output.css" />
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="bg-white text-darkText font-body">
+    <header class="header p-4">
+      <h1 class="text-2xl font-heading">LexiQuire</h1>
+    </header>
+
+    <main class="p-6 max-w-3xl mx-auto">
+      <section class="mb-6">
+        <h2 class="text-xl font-heading mb-2">Search Jurisprudence</h2>
+        <div class="search-bar-container">
+          <input type="text" placeholder="Enter a legal question..." class="search-bar" />
+          <button class="btn">Search</button>
+        </div>
+      </section>
+
+      <section>
+        <button class="add-case-btn">+ Add New Case</button>
+      </section>
+    </main>
+
+    <footer class="footer p-4 mt-10 text-center">
+      &copy; 2025 LexiQuire. All rights reserved.
+    </footer>
   </body>
 </html>
