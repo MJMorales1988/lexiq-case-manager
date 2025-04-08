@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SearchIcon } from '@heroicons/react/solid';
-import Button from './Button';
-import Home from './Home'; // Import Home component
-import CalendarView from './views/CalendarView'; // Import CalendarView component
-import CaseCalendar from './views/CaseCalendar'; // Import CaseCalendar component
-import Dashboard from './views/Dashboard'; // Import Dashboard component
-import Settings from './views/Settings'; // Import Settings component
+import Sidebar from './components/Sidebar';
+import { SearchIcon } from '@heroicons/react/solid'; 
+import Button from './Button'; 
+import Home from './Home';
+import CasesList from './views/CasesList'; // Correct path to CasesList component
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeView, setActiveView] = useState('dashboard'); // Manage active view
 
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
 
   return (
     <Router>
       <div className="flex">
-        <Sidebar setActiveView={setActiveView} /> {/* Pass setActiveView to Sidebar */}
+        <Sidebar />
         <div className="flex-1 p-6">
           {/* Always present Search bar and Add New Case button */}
           <div className="flex items-center mb-4 space-x-2">
@@ -40,10 +36,8 @@ function App() {
           {/* Define your routes */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/calendar" element={<CalendarView />} />
-            <Route path="/cases" element={<CaseCalendar />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/cases" element={<CasesList />} /> {/* Add the route for Cases */}
+            {/* Add other routes here */}
           </Routes>
         </div>
       </div>

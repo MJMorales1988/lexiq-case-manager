@@ -1,50 +1,46 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const Sidebar = ({ setActiveView }) => {
-  const handleNavClick = (view) => {
-    setActiveView(view);
-  };
-
+const Sidebar = () => {
   return (
     <div className="w-64 bg-gray-800 text-white h-full p-4">
       <h2 className="text-xl font-bold mb-4">LexiQ Case Manager</h2>
       <ul className="space-y-4">
         <li>
-          <Link
+          <NavLink
             to="/"
             className="block py-2 px-4 hover:bg-gray-600 rounded"
-            onClick={() => handleNavClick('dashboard')}
+            activeClassName="bg-gray-600" // This will highlight the active link
           >
             Dashboard
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/cases"
             className="block py-2 px-4 hover:bg-gray-600 rounded"
-            onClick={() => handleNavClick('cases')}
+            activeClassName="bg-gray-600"
           >
             Cases
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/calendar"
             className="block py-2 px-4 hover:bg-gray-600 rounded"
-            onClick={() => handleNavClick('calendar')}
+            activeClassName="bg-gray-600"
           >
             Calendar
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/settings"
             className="block py-2 px-4 hover:bg-gray-600 rounded"
-            onClick={() => handleNavClick('settings')}
+            activeClassName="bg-gray-600"
           >
             Settings
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </div>
